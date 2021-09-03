@@ -3,6 +3,7 @@ package br.com.digitalinnovatione.saladereuniao.controller;
 import br.com.digitalinnovatione.saladereuniao.exception.ResourceNotFoundExecption;
 import br.com.digitalinnovatione.saladereuniao.model.Room;
 import br.com.digitalinnovatione.saladereuniao.repository.RoomRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/v1/")
+@RequestMapping("/api/v1/")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RoomController {
 
     @Autowired
@@ -25,7 +27,7 @@ public class RoomController {
         return roomRepository.findAll();
     }
 
-    @GetMapping("rooms/id")
+    @GetMapping("rooms/{id}")
     public ResponseEntity<Room> getRoomId(@PathVariable(value = "id") long roomId)
             throws ResourceNotFoundExecption {
         Room room = roomRepository.findById(roomId)
@@ -37,7 +39,7 @@ public class RoomController {
     public Room createRoom(@Valid @RequestBody Room room) {
         return roomRepository.save(room);
     }
-    @PutMapping("rooms/id")
+    @PutMapping("rooms/{id}")
     public ResponseEntity<Room> updateRoom(@PathVariable(value = "id") Long roomId,
                                            @Valid @RequestBody Room roomDetails) throws ResourceNotFoundExecption{
         Room room = roomRepository.findById(roomId)
